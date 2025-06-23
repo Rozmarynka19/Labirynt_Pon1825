@@ -12,12 +12,10 @@ public class PlayerController : MonoBehaviour
     {
         characterController = GetComponent<CharacterController>();
     }
-
     void Update()
     {
         PlayerMove();
     }
-
     private void PlayerMove()
     {
         CheckTheGround();
@@ -28,7 +26,6 @@ public class PlayerController : MonoBehaviour
         Vector3 move = transform.right * x + transform.forward * z;
         characterController.Move(move * speed * Time.deltaTime);
     }
-
     private void CheckTheGround()
     {
         RaycastHit hit;
@@ -53,6 +50,14 @@ public class PlayerController : MonoBehaviour
                     speed = 12f;
                     break;
             }
+        }
+    }
+
+    private void OnControllerColliderHit(ControllerColliderHit hit)
+    {
+        if (hit.gameObject.tag == "Pickup")
+        {
+            hit.gameObject.GetComponent<Pickup>().Picked();
         }
     }
 }

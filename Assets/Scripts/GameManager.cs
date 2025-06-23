@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
@@ -6,6 +7,10 @@ public class GameManager : MonoBehaviour
     public static GameManager INSTANCE;
     [SerializeField] int timeToEnd;
     bool gamePaused = false;
+    bool gameEnded = false;
+    bool isWin = false;
+    [SerializeField] int points = 0;
+    Dictionary<Keys, int> keys = new Dictionary<Keys, int>();
 
     private void Start()
     {
@@ -22,12 +27,40 @@ public class GameManager : MonoBehaviour
         {
             timeToEnd = 100;
         }
+
+        keys[Keys.RED] = 0;
+        keys[Keys.GREEN] = 0;
+        keys[Keys.GOLD] = 0;
+
         InvokeRepeating(nameof(Stopper), 2f, 1f);
     }
     private void Stopper()
     {
         timeToEnd--;
         Debug.Log($"Time: {timeToEnd}s");
+
+        if (timeToEnd <= 0)
+        {
+            timeToEnd = 0;
+            gameEnded = true;
+        }
+
+        if (gameEnded)
+        {
+            EndGame();
+        }
+    }
+    private void EndGame()
+    {
+        CancelInvoke(nameof(Stopper));
+        if (isWin)
+        {
+            Debug.Log("You win!");
+        }
+        else
+        {
+            Debug.Log("You lose!");
+        }
     }
     private void Update()
     {
@@ -54,5 +87,18 @@ public class GameManager : MonoBehaviour
         Debug.Log("Game resumed");
         Time.timeScale = 1f;
         gamePaused = false;
+    }
+    public void AddPoints(int points)
+    {
+        this.points += points;
+    }
+    public void AddTime(int addTime)
+    {
+        timeToEnd += addTime;
+    }
+    public void FreezeTime(int freezeTime)
+    {
+        CancelInvoke(nameof(Stopper));
+        InvokeRepeating(nameof(Stopper), freezeTime, 1f);
     }
 }
