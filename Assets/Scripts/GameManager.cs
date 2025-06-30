@@ -65,6 +65,7 @@ public class GameManager : MonoBehaviour
     private void Update()
     {
         PauseCheck();
+        LogKeys();
     }
     private void PauseCheck()
     {
@@ -100,5 +101,18 @@ public class GameManager : MonoBehaviour
     {
         CancelInvoke(nameof(Stopper));
         InvokeRepeating(nameof(Stopper), freezeTime, 1f);
+    }
+    public void AddKey(Keys key)
+    {
+        keys[key]++;
+    }
+    void LogKeys()
+    {
+        if (Input.GetKeyDown(KeyCode.L) == false) return;
+
+        foreach(var keyEntry in keys)
+        {
+            Debug.Log($"{keyEntry.Key} = {keyEntry.Value}");
+        }
     }
 }

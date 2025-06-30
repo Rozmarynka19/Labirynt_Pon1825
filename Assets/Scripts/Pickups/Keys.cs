@@ -1,4 +1,4 @@
-enum Keys
+public enum Keys
 {
     RED,
     GREEN,
