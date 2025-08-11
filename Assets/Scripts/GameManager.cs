@@ -10,7 +10,7 @@ public class GameManager : MonoBehaviour
     bool gameEnded = false;
     bool isWin = false;
     [SerializeField] int points = 0;
-    Dictionary<Keys, int> keys = new Dictionary<Keys, int>();
+    public Dictionary<Keys, int> keys = new Dictionary<Keys, int>();
 
     private void Start()
     {
