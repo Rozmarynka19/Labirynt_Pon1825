@@ -6,6 +6,7 @@ public class PointAdder : Pickup
     public override void Picked()
     {
         GameManager.INSTANCE.AddPoints(points);
+        GameManager.INSTANCE.PlayClip(GameManager.INSTANCE.pickedClip);
         Destroy(this.gameObject);
     }
 }

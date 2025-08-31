@@ -11,6 +11,8 @@ public class GameManager : MonoBehaviour
     bool isWin = false;
     [SerializeField] int points = 0;
     public Dictionary<Keys, int> keys = new Dictionary<Keys, int>();
+    AudioSource audioSource;
+    public AudioClip resumeClip, pauseClip, winClip, loseClip, pickedClip;
 
     private void Start()
     {
@@ -32,6 +34,7 @@ public class GameManager : MonoBehaviour
         keys[Keys.GREEN] = 0;
         keys[Keys.GOLD] = 0;
 
+        audioSource = GetComponent<AudioSource>();
         InvokeRepeating(nameof(Stopper), 2f, 1f);
     }
     private void Stopper()
@@ -55,10 +58,12 @@ public class GameManager : MonoBehaviour
         CancelInvoke(nameof(Stopper));
         if (isWin)
         {
+            PlayClip(winClip);
             Debug.Log("You win!");
         }
         else
         {
+            PlayClip(loseClip);
             Debug.Log("You lose!");
         }
     }
@@ -79,12 +84,14 @@ public class GameManager : MonoBehaviour
     }
     public void PauseGame()
     {
+        PlayClip(pauseClip);
         Debug.Log("Game paused");
         Time.timeScale = 0f;
         gamePaused = true;
     }
     public void ResumeGame()
     {
+        PlayClip(resumeClip);
         Debug.Log("Game resumed");
         Time.timeScale = 1f;
         gamePaused = false;
@@ -114,5 +121,10 @@ public class GameManager : MonoBehaviour
         {
             Debug.Log($"{keyEntry.Key} = {keyEntry.Value}");
         }
+    }
+    public void PlayClip(AudioClip clip)
+    {
+        audioSource.clip = clip;
+        audioSource.Play();
     }
 }
