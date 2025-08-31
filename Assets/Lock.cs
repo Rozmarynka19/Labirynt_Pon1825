@@ -45,6 +45,7 @@ public class Lock : MonoBehaviour
         if (other.tag == "Player")
         {
             iCanOpen = true;
+            InteractionPanel.INSTANCE.ShowGateInteraction();
             Debug.Log("You can use the lock");
         }
     }
@@ -54,6 +55,7 @@ public class Lock : MonoBehaviour
         if (other.tag == "Player")
         {
             iCanOpen = false;
+            InteractionPanel.INSTANCE.Hide();
             Debug.Log("You cannot use the lock");
         }
     }
